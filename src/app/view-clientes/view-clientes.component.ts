@@ -6,13 +6,18 @@ import {ClientesService} from '../clientes.service';
   templateUrl: './view-clientes.component.html',
   styleUrls: ['./view-clientes.component.css']
 })
-export class ViewClientesComponent{
+export class ViewClientesComponent implements OnInit{
 
   clientes;
-  constructor(
+  constructor
+  (
     private clienteService: ClientesService
-  ) {
-      this.clientes = clienteService.getClientes();
+  )
+  { }
+
+  public async ngOnInit(): Promise<void>
+  {
+    this.clientes = await this.clienteService.getClientes();
   }
 
 }
