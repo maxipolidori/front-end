@@ -1,27 +1,20 @@
 
 <h1>Introduzca datos del cliente</h1>
 
-<form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
+<form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
 
-   <div>
-    <label for="nombre">
-      Nombre
-    </label>
-    <input id="nombre" type="text" formControlName="nombre">
+  <div *ngFor="let input of inputs">
+    <label>{{input.label}}</label>
+    <div>
+      <input [id]="input.key" [type]="input.type" [formControlName]="input.key">
+      <ng-container *ngIf="form.controls[input.key].invalid && form.controls[input.key].touched">
+        <p style="color: red" *ngIf="form.controls[input.key].errors.required">Campo requerido</p>
+        <p style="color: red" *ngIf="form.controls[input.key].errors.pattern">DNI inválido</p>
+        <p style="color: red" *ngIf="form.controls[input.key].errors.email">Email inválido</p>
+      </ng-container>
+    </div>
   </div>
 
-<div>
-    <label for="apellido">
-      Apellido
-    </label>
-    <input id="apellido" type="text" formControlName="apellido">
-  </div>
-
-  <div>
-    <label for="direccion">
-      Direccion
-    </label>
-    <input id="direccion" type="text" formControlName="direccion">
-  </div>
-  <button class="button" type="submit">Guardar</button>
+  <button class="button" type="submit" [disabled]="!form.valid">Guardar</button>
+  <a href="/clientes">Volver</a>
 </form>
