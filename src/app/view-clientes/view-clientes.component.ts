@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ClientesService} from '../clientes.service';
+import { Cliente } from '../cliente';
 
 @Component({
   selector: 'app-view-clientes',
@@ -8,16 +9,26 @@ import {ClientesService} from '../clientes.service';
 })
 export class ViewClientesComponent implements OnInit{
 
-  clientes;
+  clientes: Cliente[];
   constructor
   (
     private clienteService: ClientesService
   )
   { }
 
-  public async ngOnInit(): Promise<void>
+  ngOnInit()
+  {
+    this.getClientes();
+  }
+
+  public async getClientes(): Promise<void>
   {
     this.clientes = await this.clienteService.getClientes();
   }
 
+  public async eliminar(c: Cliente): Promise<void>
+  {
+    await this.clienteService.removeCliente(c.id);
+    this.getClientes();
+  }
 }
