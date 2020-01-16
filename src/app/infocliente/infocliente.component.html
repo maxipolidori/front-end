@@ -1,0 +1,20 @@
+<ng-container *ngIf="cliente">
+
+  <h2>Cliente {{cliente.id}}</h2>
+  
+  <form [formGroup]="form" (ngSubmit)="update(form.value)">
+    <div *ngFor="let input of inputs">
+      <label>{{input.label}}</label>
+        <div>
+          <input [id]="input.key" [type]="input.type" [formControlName]="input.key">
+          <ng-container *ngIf="form.controls[input.key].invalid">
+            <p style="color: red" *ngIf="form.controls[input.key].errors.required">Campo requerido</p>
+            <p style="color: red" *ngIf="form.controls[input.key].errors.pattern">DNI inválido</p>
+            <p style="color: red" *ngIf="form.controls[input.key].errors.email">Email inválido</p>
+          </ng-container>
+        </div>
+    </div>
+    <button class="button" type="submit" [disabled]="!form.valid">Guardar</button>
+    <a href="/clientes">Volver</a>
+  </form>
+</ng-container>
